@@ -12,4 +12,7 @@ end
 module PureChart
   class << self
   end
+
+  class Engine < Rails::Engine;
+  end
 end

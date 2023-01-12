@@ -1,7 +1,7 @@
 module PureChart
     module ChartHelpers
         def lollipop_chart
-            "<div>Lollipop chart will be rendered here.</div>".html_safe
+            ActionController::Base.render partial: '/lollipop'
         end
 
         def bar_chart

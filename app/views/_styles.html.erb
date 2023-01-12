@@ -1,0 +1,200 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&display=swap');
+
+body {
+	padding: 32px;
+}
+
+h2,
+h4 {
+	margin: 0;
+	font-family: 'Inter Tight', sans-serif;
+}
+
+h2 {
+	margin-bottom: 16px;
+}
+
+h4 {
+	margin-top: 16px;
+}
+
+textarea {
+	width: 605px;
+	height: 110px;
+
+	border: 2px solid black;
+	border-radius: 8px;
+
+	padding: 8px;
+
+	font-family: 'Inter Tight', sans-serif;
+}
+
+button {
+	display: block;
+	width: 100%;
+
+	background-color: black;
+	border: none;
+	border-radius: 8px;
+
+	font-family: 'Inter Tight', sans-serif;
+	color: white;
+
+	font-size: 1rem;
+	padding: 8px 16px 8px 16px;
+
+	cursor: pointer;
+}
+
+.card {
+	width: max-content;
+	border: 2px solid #ebebeb;
+	padding: 32px;
+	border-radius: 8px;
+	margin: 0 auto;
+}
+
+.chart {
+	width: 500px;
+	height: 400px;
+
+	margin-left: 96px;
+	padding-top: 32px;
+	padding-bottom: 32px;
+
+	position: relative;
+
+	border-left: 2px solid black;
+	border-bottom: 2px solid black;
+}
+
+.chart-elements {
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	align-items: baseline;
+	justify-content: space-around;
+}
+
+.bar {
+	height: 4px;
+	background-color: #476D54;
+
+	margin-bottom: 32px;
+	position: relative;
+
+	cursor: pointer;
+}
+
+.lollipop-end {
+	width: 16px;
+	height: 16px;
+	background-color: #476D54;
+	border-radius: 100px;
+	position: absolute;
+	top: 50%;
+	right: -8px;
+	transform: translateY(-50%);
+}
+
+.bar-title {
+	position: absolute;
+	top: -12px;
+	margin: 0;
+	right: 100%;
+	height: 24px;
+	width: 96px;
+	line-height: 24px;
+	font-family: 'Inter Tight', sans-serif;
+	font-weight: 700;
+
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	padding-right: 8px;
+}
+
+.tooltip {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+
+	padding: 8px;
+
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 36px 0px, rgba(0, 0, 0, 0.15) 0px 0px 0px 1px;
+
+	opacity: 0;
+	transform: translateX(-50%) translateY(-50%);
+
+	transition: 0.25s all ease;
+}
+
+.tooltip p {
+	margin: 0px;
+	font-family: 'Inter Tight';
+	font-weight: 700;
+}
+
+.gridlines {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+
+	z-index: -1;
+	display: flex;
+}
+
+.gridlines div {
+	height: 100%;
+	border-right: 2px solid #00000033;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+}
+
+.gridlines div p {
+	margin: 0;
+	font-family: 'Inter Tight';
+}
+
+/* TICKS */
+.gridlines-ticks {
+	margin-left: 96px;
+	width: 500px;
+	display: flex;
+	border-bottom: 2px solid #00000000;
+	padding-left: 2px;
+	text-align: right;
+}
+
+.gridlines-ticks div {
+	border-right: 2px solid #0003;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	position: relative;
+}
+
+.gridlines-ticks div p {
+	margin: 0;
+	font-family: 'Inter Tight';
+}
+
+.bar:hover .tooltip {
+	opacity: 1;
+	transform: translateX(-50%) translateY(calc(-50% - 32px));
+}
+
+* {
+	box-sizing: border-box;
+}
+</style>
