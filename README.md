@@ -7,11 +7,11 @@ Fully customizable HTML/CSS charts for Ruby on Rails. PureChart serves as an alt
 
 ## Examples
 ### Lollipop Chart
-`erb
+```erb
 <div class="card">
     <%= lollipop_chart %>
 </div>
-`
+```
 <p align="center">
   <img width="500px" src="README/Lollipop.png">
 </p>
