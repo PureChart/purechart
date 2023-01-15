@@ -1,33 +1,18 @@
+<%= gridlines %>
 <div class="chart-flex-container">
 	<div class="chart">
 		<div class="chart-elements">
-			<div class="bar" style="width: 100%; background-color: rgb(255, 127, 80);">
-				<p class="bar-title">Burger King</p>
-				<div class="lollipop-end" style="background-color: rgb(255, 127, 80);">
+			<%- data.each do |object| %>
+			<div class="bar" style="width: <%= object[:height] %>%; background-color: <%= object[:color] %>;">
+				<p class="bar-title"><%= object[:name] %></p>
+				<div class="lollipop-end" style="background-color: <%= object[:color] %>;">
 					<div class="tooltip">
-						<p style="color: rgb(255, 127, 80);">Burger King</p>
-						<p>$1200</p>
+						<p style="color: <%= object[:color] %>;"><%= object[:name] %></p>
+						<p>$<%= object[:dollars] %></p>
 					</div>
 				</div>
 			</div>
-			<div class="bar" style="width: 42%; background-color: rgb(255, 71, 87);">
-				<p class="bar-title">McDonalds</p>
-				<div class="lollipop-end" style="background-color: rgb(255, 71, 87);">
-					<div class="tooltip">
-						<p style="color: rgb(255, 71, 87);">McDonalds</p>
-						<p>$500</p>
-					</div>
-				</div>
-			</div>
-			<div class="bar" style="width: 65%; background-color: rgb(46, 213, 115);">
-				<p class="bar-title">Green Burrito</p>
-				<div class="lollipop-end" style="background-color: rgb(46, 213, 115);">
-					<div class="tooltip">
-						<p style="color: rgb(46, 213, 115);">Green Burrito</p>
-						<p>$780</p>
-					</div>
-				</div>
-			</div>
+			<% end %>
 		</div>
 		<div class="gridlines">
 			<div style="width: 10%;">
@@ -53,36 +38,11 @@
 		</div>
 	</div>
 	<div class="gridlines-ticks">
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">240</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">480</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">720</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">960</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">1200</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">1440</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">1680</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">1920</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">2160</p>
-		</div>
-		<div class="tick" style="width: 10%;">
-			<p style="margin-right: 4px">2400</p>
-		</div>
+		<%- (1..10).each do |index| %>
+			<div class="tick" style="width: 10%;">
+				<p style="margin-right: 4px"><%= index * 120 %></p>
+			</div>
+		<% end %>
 	</div>
 	<div style="margin-left: 96px">
 		<h4 style="text-align: center;">Dollars ($)</h4>
