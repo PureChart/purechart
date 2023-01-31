@@ -16,9 +16,6 @@ jobs:
         with:
           ruby-version: 3.0.0
 
-      # Bundle install
-      - run: bundle install
-
       # Publish
       - name: publish gem
         run: |
