@@ -5,6 +5,11 @@
 # PureChart
 Fully customizable HTML/CSS charts for Ruby on Rails. PureChart serves as an alternative to other charting libraries that extensively use JavaScript and HTML `canvas` elements to render charts, resulting in Rails rendering problems and very limited customization options.
 
+## Getting Started
+Integrating PureChart into your Rails project is incredibly easy. Simply add `gem 'purechart'` to your Gemfile, run `bundle install` and you should be all set! Now, just use our helpers to generate charts in your `erb.html` files.
+
+**Note -** We're currently working on a documentation website (you can visit the repository [here](https://github.com/PureChart/purechart-website)) which will include detailed tutorials and examples. Check back from time to time for updates.
+
 ## Examples
 ### Lollipop Chart
 #### Controller
