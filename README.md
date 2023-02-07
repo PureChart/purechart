@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="300px" src="README/PureChart.png">
+  <img width="350px" src="README/PureChartLogo.png">
 </p>
 
 # PureChart
@@ -15,28 +15,34 @@ class ChartsController < ApplicationController
             {
                 name: "Burger King",
                 color: "#ff7f50",
-                dollars: 1200
+                value: 1200,
             },
             {
                 name: "McDonalds",
                 color: "#ff4757",
-                dollars: 500
+                value: 500,
             },
             {
                 name: "Green Burrito",
                 color: "#2ed573",
-                dollars: 780
+                value: 780,
             }
         ]
+
+        @axes = {
+            horizontal: "Dollars"
+        }
     end
 end
 ```
+
 #### Template
 ```erb
 <div class="card">
-    <%= lollipop_chart %>
+    <%= lollipop_chart @data, @axes %>
 </div>
 ```
+
 <p align="center">
   <img width="500px" src="README/Lollipop.png">
 </p>
