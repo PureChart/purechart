@@ -1,10 +1,10 @@
 module PureChart
     module ChartHelpers
-        def lollipop_chart(data)
-            largest_value = (data.map { |object| object[:dollars] }).max()
+        def lollipop_chart(data, axes = { horizontal: "Value" })
+            largest_value = (data.map { |object| object[:value] }).max()
 
             data.each do |object|
-                object[:height] = (Float(object[:dollars]) / largest_value) * 100
+                object[:width] = (Float(object[:value]) / largest_value) * 100
             end
 
             gridlines = {
@@ -14,7 +14,8 @@ module PureChart
 
             ActionController::Base.render partial: '/lollipop', locals: {
                 data: data,
-                gridlines: gridlines
+                gridlines: gridlines,
+                axes: axes
             }
         end
 
@@ -27,7 +28,7 @@ module PureChart
         end
 
         def pie_chart
-            "<div>Pie chart will be rendered here.</div>".html_safe
+            ActionController::Base.render partial: '/pie'
         end
     end
 end

@@ -1,14 +1,13 @@
-<%= gridlines %>
 <div class="chart-flex-container">
 	<div class="chart">
 		<div class="chart-elements">
 			<%- data.each do |object| %>
-			<div class="bar" style="width: <%= object[:height] %>%; background-color: <%= object[:color] %>;">
+			<div class="bar" style="width: <%= object[:width] %>%; background-color: <%= object[:color] %>;">
 				<p class="bar-title"><%= object[:name] %></p>
 				<div class="lollipop-end" style="background-color: <%= object[:color] %>;">
 					<div class="tooltip">
 						<p style="color: <%= object[:color] %>;"><%= object[:name] %></p>
-						<p>$<%= object[:dollars] %></p>
+						<p>$<%= object[:value] %></p>
 					</div>
 				</div>
 			</div>
@@ -45,7 +44,7 @@
 		<% end %>
 	</div>
 	<div style="margin-left: 96px">
-		<h4 style="text-align: center;">Dollars ($)</h4>
+		<h4 style="text-align: center;"><%= axes[:horizontal] %> ($)</h4>
 	</div>
 </div>
 
