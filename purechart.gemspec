@@ -4,6 +4,6 @@ Gem::Specification.new do |s|
   s.summary     = "PureChart"
   s.description = "Pure HTML/CSS charts for Ruby on Rails."
   s.authors     = ["George Berdovskiy"]
-  s.files       = ["lib/purechart.rb"]
+  s.files       = Dir['lib/**/*'] + Dir['app/**/*']
   s.license     = "MIT"
 end
