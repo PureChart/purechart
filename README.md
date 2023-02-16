@@ -8,7 +8,7 @@ Fully customizable HTML/CSS charts for Ruby on Rails. PureChart serves as an alt
 ## Getting Started
 Integrating PureChart into your Rails project is incredibly easy. Simply add `gem 'purechart'` to your Gemfile, run `bundle install` and you should be all set! Now, just use our helpers to generate charts in your `erb.html` files.
 
-**Note -** We're currently working on a documentation website (you can visit the repository [here](https://github.com/PureChart/purechart-website)) which will include detailed tutorials and examples. Check back from time to time for updates.
+**Note -** We're currently working on a documentation website ([docs.purechart.org](https://docs.purechart.org). Check back every now and then for updates!
 
 ## Examples
 ### Lollipop Chart
@@ -41,10 +41,19 @@ class ChartsController < ApplicationController
 end
 ```
 
+#### Optional Style Configuration (in `app/purechart`)
+##### custom_bar.yml
+```yml
+---
+labels:
+  font: Inter Tight
+...
+```
+
 #### Template
 ```erb
 <div class="card">
-    <%= lollipop_chart @data, @axes %>
+    <%= lollipop_chart @data, @axes, "custom_bar" %>
 </div>
 ```
 

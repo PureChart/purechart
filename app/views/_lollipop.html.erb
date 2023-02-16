@@ -1,9 +1,10 @@
+<!-- TODO - Use 'style' hash to apply styles -->
 <div class="chart-flex-container">
-	<div class="chart">
+	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
 		<div class="chart-elements">
 			<%- data.each do |object| %>
 			<div class="bar" style="width: <%= object[:width] %>%; background-color: <%= object[:color] %>;">
-				<p class="bar-title"><%= object[:name] %></p>
+				<p class="bar-title" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
 				<div class="lollipop-end" style="background-color: <%= object[:color] %>;">
 					<div class="tooltip">
 						<p style="color: <%= object[:color] %>;"><%= object[:name] %></p>
@@ -14,37 +15,37 @@
 			<% end %>
 		</div>
 		<div class="gridlines">
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
-			<div style="width: 10%;">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
 			</div>
 		</div>
 	</div>
 	<div class="gridlines-ticks">
 		<%- (1..10).each do |index| %>
-			<div class="tick" style="width: 10%;">
-				<p style="margin-right: 4px"><%= index * 120 %></p>
+			<div class="tick" style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+				<p style="margin-right: 4px; font-family: <%= style['ticks']['font'] %>; font-weight: <%= style['ticks']['weight'] %>; color: <%= style['ticks']['color'] %>"><%= index * 120 %></p>
 			</div>
 		<% end %>
 	</div>
 	<div style="margin-left: 96px">
-		<h4 style="text-align: center;"><%= axes[:horizontal] %> ($)</h4>
+		<h4 style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= axes[:horizontal] %> ($)</h4>
 	</div>
 </div>
 
