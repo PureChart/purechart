@@ -1,4 +1,3 @@
-<!-- TODO - Use 'style' hash to apply styles -->
 <div class="chart-flex-container">
 	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
 		<div class="chart-elements">
@@ -8,7 +7,7 @@
 				<div class="lollipop-end" style="background-color: <%= object[:color] %>;">
 					<div class="tooltip">
 						<p style="color: <%= object[:color] %>;"><%= object[:name] %></p>
-						<p>$<%= object[:value] %></p>
+						<p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
 					</div>
 				</div>
 			</div>
@@ -45,7 +44,7 @@
 		<% end %>
 	</div>
 	<div style="margin-left: 96px">
-		<h4 style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= axes[:horizontal] %> ($)</h4>
+		<h4 class="purechart" style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= configuration[:axes][:horizontal] %><%= configuration[:symbol] ? " (" + configuration[:symbol] + ")" : ''%></h4>
 	</div>
 </div>
 

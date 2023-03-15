@@ -1,23 +1,10 @@
 <style>
-/* TODO - Remove all general styles except for the font import */
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&display=swap');
 
-body {
-	padding: 32px;
-}
-
-h2,
-h4 {
+h4.purechart {
 	margin: 0;
-	font-family: 'Inter Tight', sans-serif;
-}
-
-h2 {
-	margin-bottom: 16px;
-}
-
-h4 {
 	margin-top: 16px;
+	font-family: 'Inter Tight', sans-serif;
 }
 
 .chart {
@@ -52,6 +39,7 @@ h4 {
 	position: relative;
 
 	cursor: pointer;
+	z-index: 1;
 }
 
 .lollipop-end {
@@ -103,6 +91,7 @@ h4 {
 	margin: 0px;
 	font-family: 'Inter Tight';
 	font-weight: 700;
+	color: black;
 }
 
 .gridlines {
@@ -112,7 +101,6 @@ h4 {
 	left: 0;
 	bottom: 0;
 
-	z-index: -1;
 	display: flex;
 }
 

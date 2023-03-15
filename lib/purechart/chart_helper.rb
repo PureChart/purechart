@@ -1,6 +1,6 @@
 module PureChart
     module ChartHelpers
-        def lollipop_chart(data, axes = { horizontal: "Value" }, path = "")
+        def lollipop_chart(data, configuration = { axes: { horizontal: "Value" } }, path = "")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
@@ -10,9 +10,7 @@ module PureChart
             if path != ""
                 # TODO - Implement better logic
                 if File.file?("app/purechart/" + path + ".yml")
-                    puts "loading..."
                     user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yml"))
-                    puts user_config_hash
                 elsif File.file?("app/purechart/" + path + ".yaml")
                     user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yaml"))
                 elsif File.file?("app/purechart/" + path + ".json")
@@ -24,9 +22,6 @@ module PureChart
 
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
-
-            puts "USER CONFIG - "
-            puts user_config_hash
 
             # Format data for chart generation
             largest_value = (data.map { |object| object[:value] }).max()
@@ -43,7 +38,7 @@ module PureChart
             ActionController::Base.render partial: '/lollipop', locals: {
                 data: data,
                 gridlines: gridlines,
-                axes: axes,
+                configuration: configuration,
                 style: style_config
             }
         end
