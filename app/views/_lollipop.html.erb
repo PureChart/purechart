@@ -1,4 +1,4 @@
-<div class="chart-flex-container">
+<div class="chart-flex-container" style="width: fit-content">
 	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
 		<div class="chart-elements">
 			<%- data.each do |object| %>
@@ -39,7 +39,7 @@
 	<div class="gridlines-ticks">
 		<%- (1..10).each do |index| %>
 			<div class="tick" style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
-				<p style="margin-right: 4px; font-family: <%= style['ticks']['font'] %>; font-weight: <%= style['ticks']['weight'] %>; color: <%= style['ticks']['color'] %>"><%= index * 120 %></p>
+				<p style="margin-right: 4px; font-family: <%= style['ticks']['font'] %>; font-weight: <%= style['ticks']['weight'] %>; color: <%= style['ticks']['color'] %>"><%= index * gridlines[:vertical_increment] %></p>
 			</div>
 		<% end %>
 	</div>
