@@ -55,8 +55,8 @@ module PureChart
             ActionController::Base.render partial: '/pie'
         end
 
-        def line_chart
-            "<div>Line chart will be rendered here.</div>".html_safe
+        def line_graph
+            "<div>Line graph will be rendered here.</div>".html_safe
         end
     end
 end
