@@ -54,5 +54,9 @@ module PureChart
         def pie_chart
             ActionController::Base.render partial: '/pie'
         end
+
+        def dot_plot
+            "<div>Dot plot will be rendered here.</div>".html_safe
+        end
     end
 end
