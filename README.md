@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="350px" src="README/PureChartLogo.png">
+  <img width="355px" src="README/PureChartLogo.png">
 </p>
 
 # PureChart
