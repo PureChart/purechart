@@ -59,8 +59,5 @@ module PureChart
             "<div>Line graph will be rendered here.</div>".html_safe
         end
 
-        def dot_plot
-            "<div>Dot plot will be rendered here.</div>".html_safe
-        end
     end
 end
