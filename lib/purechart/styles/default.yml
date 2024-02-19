@@ -15,4 +15,9 @@ axes:
   style: "2px solid #000000"
 gridlines:
   style: "2px dashed #00000033"
+# This section needs to be included to prevent a runtime error where no object[:color] is found
+colors:
+  green: '#00FF00'
+  red: '#FF0000'
+  orange: '#FFA500'
 ...

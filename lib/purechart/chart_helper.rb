@@ -7,7 +7,13 @@ module PureChart
             default_config_hash = YAML.load(File.read(default_config_path))
             user_config_hash = {}
 
-            if path != ""
+            if path == "futuristic_light"
+                default_config_path = File.join( File.dirname(__FILE__), 'styles/futuristic_light.yml' )
+                user_config_hash = YAML.load(File.read(default_config_path))
+            elsif path == "futuristic_dark"
+                default_config_path = File.join( File.dirname(__FILE__), 'styles/futuristic_dark.yml' )
+                user_config_hash = YAML.load(File.read(default_config_path))
+            elsif path != ""
                 # TODO - Implement better logic
                 if File.file?("app/purechart/" + path + ".yml")
                     user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yml"))
@@ -53,6 +59,14 @@ module PureChart
 
         def pie_chart
             ActionController::Base.render partial: '/pie'
+        end
+
+        def line_graph
+            "<div>Line graph will be rendered here.</div>".html_safe
+        end
+
+        def dot_plot
+            "<div>Dot plot will be rendered here.</div>".html_safe
         end
     end
 end
