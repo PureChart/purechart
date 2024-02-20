@@ -15,4 +15,11 @@ axes:
   style: "2px solid #000000"
 gridlines:
   style: "2px dashed #00000033"
+colors:
+  red: '#eb3b5a'
+  orange: '#fa8231'
+  yellow: '#f7b731'
+  green: '#20bf6b'
+  blue: '#4b7bec'
+  purple: '#a55eea'
 ...
