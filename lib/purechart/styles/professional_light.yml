@@ -1,0 +1,37 @@
+title:
+  font: 'Times New Roman'
+  weight: 800  
+  color: '#333333'
+
+labels:
+  font: 'Times New Roman'
+  weight: 800  
+  color: '#666666'
+
+ticks:
+  font: 'Times New Roman'
+  weight: 900  
+  color: '#999999'
+
+axes:
+  style: '2px solid #333333'
+
+gridlines:
+  style: '2px dashed #33333333'
+
+colors:
+  muted-blue: '#A7C6E4'
+  muted-green: '#B5CEBF'
+  muted-pink: '#F2C9C4'
+  muted-purple: '#D5C1D2'
+  muted-teal: '#A4BEC0'
+  muted-peach: '#F8DCC8'
+  muted-gray: '#D6D7D7'
+  muted-olive: '#C2C4AB'
+  muted-brown: '#C0B8AF'
+  muted-slate: '#A6B0B9'
+  muted-lavender: '#D5C9DA'
+  muted-coral: '#FAC5BA'
+  muted-mint: '#BEEAD2'
+  muted-lilac: '#E4D4EB'
+  muted-sand: '#F6EDD5'
