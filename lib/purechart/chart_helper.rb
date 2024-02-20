@@ -7,26 +7,18 @@ module PureChart
             default_config_hash = YAML.load(File.read(default_config_path))
             user_config_hash = YAML.load(File.read(File.join( File.dirname(__FILE__), 'styles/' + 'default' + '.yml' )))
 
-
-            if path.present?
-                puts "paht present"
-                if File.file?(File.join( File.dirname(__FILE__), 'styles/' + path + '.yml' ))
-                    puts "INSIDE FILE THING"
-                    user_config_hash = YAML.load(File.read(File.join( File.dirname(__FILE__), 'styles/' + path + '.yml' )))
+            if path != ""
+                # TODO - Implement better logic
+                if File.file?("styles/" + path + ".yml")
+                    user_config_hash = YAML.load(File.read("styles/" + path + ".yml"))
+                elsif File.file?("app/purechart/" + path + ".yaml")
+                    user_config_hash = YAML.load(File.read("styles/" + path + ".yaml"))
+                elsif File.file?("app/purechart/" + path + ".json")
+                    user_config_hash = JSON.load(File.read("styles/" + path + ".json"))
+                else
+                    raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
                 end
             end
-            # if path != ""
-            #     # TODO - Implement better logic
-            #     if File.file?("styles/" + path + ".yml")
-            #         user_config_hash = YAML.load(File.read("styles/" + path + ".yml"))
-            #     elsif File.file?("app/purechart/" + path + ".yaml")
-            #         user_config_hash = YAML.load(File.read("styles/" + path + ".yaml"))
-            #     elsif File.file?("app/purechart/" + path + ".json")
-            #         user_config_hash = JSON.load(File.read("styles/" + path + ".json"))
-            #     else
-            #         raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
-            #     end
-            # end
             
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
