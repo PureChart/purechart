@@ -1,25 +1,25 @@
 module PureChart
     module ChartHelpers
-        def lollipop_chart(data, configuration = { axes: { horizontal: "Value" } }, path = "")
+        def lollipop_chart(data, configuration = { axes: { horizontal: "Value" } }, path="")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
             default_config_hash = YAML.load(File.read(default_config_path))
-            user_config_hash = {}
+            user_config_hash = YAML.load(File.read(File.join( File.dirname(__FILE__), 'styles/' + 'default' + '.yml' )))
 
             if path != ""
                 # TODO - Implement better logic
-                if File.file?("app/purechart/" + path + ".yml")
-                    user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yml"))
+                if File.file?("styles/" + path + ".yml")
+                    user_config_hash = YAML.load(File.read("styles/" + path + ".yml"))
                 elsif File.file?("app/purechart/" + path + ".yaml")
-                    user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yaml"))
+                    user_config_hash = YAML.load(File.read("styles/" + path + ".yaml"))
                 elsif File.file?("app/purechart/" + path + ".json")
-                    user_config_hash = JSON.load(File.read("app/purechart/" + path + ".json"))
+                    user_config_hash = JSON.load(File.read("styles/" + path + ".json"))
                 else
                     raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
                 end
             end
-
+            
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
 
@@ -42,6 +42,22 @@ module PureChart
                 style: style_config
             }
         end
+
+        def dot_svg_render
+            <<-SVG.strip_heredoc.html_safe
+              <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 10 10 H 190 V 190 H 10 L 10 10" fill="none" stroke="black"/>
+                <circle cx="15" cy="100" r="6" fill="red"/>
+                <circle cx="30" cy="60" r="6" fill="red"/>
+                <circle cx="90" cy="140" r="6" fill="red"/>
+                <circle cx="130" cy="90" r="6" fill="red"/>
+                <circle cx="160" cy="20" r="6" fill="red"/>
+                <circle cx="180" cy="150" r="6" fill="red"/>
+                <circle cx="40" cy="20" r="6" fill="red"/>
+              </svg>
+            SVG
+          end
+          
 
         def bar_chart
             "<div>Bar chart will be rendered here.</div>".html_safe
