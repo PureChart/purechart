@@ -1,6 +1,6 @@
 module PureChart
     module ChartHelpers
-        def lollipop_chart(data, configuration = { axes: { horizontal: "Value" } }, path = "")
+        def lollipop_chart(data, configuration = { axes: { horizontal: "Value" } }, path="")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
@@ -25,7 +25,7 @@ module PureChart
                     raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
                 end
             end
-
+            
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
 
@@ -47,6 +47,19 @@ module PureChart
                 configuration: configuration,
                 style: style_config
             }
+        end
+
+        def dot_svg_render
+           '''<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 10 10 H 190 V 190 H 10 L 10 10" fill="none" stroke="black"/>
+                <circle cx="15" cy="100" r="6" fill="red"/>
+                <circle cx="30" cy="60" r="6" fill="red"/>
+                <circle cx="90" cy="140" r="6" fill="red"/>
+                <circle cx="130" cy="90" r="6" fill="red"/>
+                <circle cx="160" cy="20" r="6" fill="red"/>
+                <circle cx="180" cy="150" r="6" fill="red"/>
+                <circle cx="40" cy="20" r="6" fill="red"/>
+            </svg>'''.html_safe
         end
 
         def bar_chart
