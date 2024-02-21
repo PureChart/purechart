@@ -1,0 +1,28 @@
+---
+title:
+  font: Futura
+  weight: 700
+  color: "#FFFFFF"
+labels:
+  font: Futura
+  weight: 700
+  color: "#FFFFFF"
+ticks:
+  font: Futura
+  weight: 400
+  color: "#FFFFFF"
+axes:
+  style: "2px solid #FFFFFF"
+gridlines:
+  style: "2px dashed #FFFFFF33"
+colors: 
+  green: '#90EE90'
+  red: '#FF6347'
+  orange: '#FFA500'
+  blue: '#1E90FF'
+  yellow: '#FFFF00'
+  purple: '#BA55D3'
+  brown: '#A52A2A'
+  grey: '#808080'
+...
+
