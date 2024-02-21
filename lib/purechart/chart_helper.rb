@@ -6,8 +6,15 @@ module PureChart
 
             default_config_hash = YAML.load(File.read(default_config_path))
             user_config_hash = {}
-
-            if path == "futuristic_light"
+            if path == "professional_light"
+                # TODO - Instead of loading our own by default, try/catch to see if they defined their own
+                # style using the same name
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/professional_light.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "professional_dark"
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/professional_dark.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "futuristic_light"
                 default_config_path = File.join( File.dirname(__FILE__), 'styles/futuristic_light.yml' )
                 user_config_hash = YAML.load(File.read(default_config_path))
             elsif path == "futuristic_dark"
