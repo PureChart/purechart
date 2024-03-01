@@ -2,14 +2,12 @@
 	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
 		<div class="chart-elements">
 			<%- data.each do |object| %>
-			<div class="bar" style="width: <%= object[:width] %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
-				<p class="bar-title" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
-				<div class="lollipop-end" style="background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
+			<div class="bar bar-chart-bar" style="width: <%= object[:width] %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
+				<p class="bar-title bar-chart-bar-title" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
 					<div class="tooltip">
 						<p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>
 						<p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
 					</div>
-				</div>
 			</div>
 			<% end %>
 		</div>
