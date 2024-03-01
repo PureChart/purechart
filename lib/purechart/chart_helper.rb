@@ -198,7 +198,8 @@ module PureChart
 
             area+="</svg>"
             area.html_safe
-
+        end
+        
         def line_graph
             "<div>Line graph will be rendered here.</div>".html_safe
         end
