@@ -7,6 +7,30 @@ h4.purechart {
 	font-family: 'Inter Tight', sans-serif;
 }
 
+/* Line Plot style*/
+.line-chart{
+	width: 500px;
+	height: 400px;
+
+	padding-top: 32px;
+	padding-bottom: 32px;
+
+	position: relative;
+
+	border-bottom: 2px solid black;
+}
+
+.line-chart-elements{
+	width: 500px;
+	height: 400px;
+
+	display: flex;
+	flex-direction: row;
+	align-items: baseline;
+	justify-content: space-around;
+}
+/* === */
+
 .chart {
 	width: 500px;
 	height: 400px;
@@ -136,12 +160,19 @@ h4.purechart {
 	position: relative;
 }
 
+/* Line Plot axis styles */
 .gridlines-ticks div p {
 	margin: 0;
 	font-family: 'Inter Tight';
 }
 
-.bar:hover .tooltip {
+.line-chart-ticks {
+
+}
+
+/* ===== */
+
+.bar:hover .cross:hover .tooltip {
 	opacity: 1;
 	transform: translateX(-50%) translateY(calc(-50% - 32px));
 }
