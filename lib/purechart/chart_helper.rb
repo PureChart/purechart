@@ -125,8 +125,35 @@ module PureChart
             "<div>Column chart will be rendered here.</div>".html_safe
         end
 
-        def pie_chart
-            ActionController::Base.render partial: '/pie'
+        def pie_chart(data)
+            # Find total value for calculating percentages 
+            total_value = 0
+            data.each do |object|
+                total_value += object[:value]
+            end
+
+            # Create svg and align viewbox
+            result = '''<svg height="250" width="250" viewBox="0 0 250 250">
+            <circle r="125" cx="125" cy="125" fill="white" />'''
+            
+            # Orient first slice at top of circle
+            angle = -90
+
+            # For each slice, create circle with stroke border, where gap between strokes = circumference (to make 1 slice)
+            for object in data do
+                # Circle radius should be 1/4 of bg circle dimension
+                result += "<circle r='62.5' cx='125' cy='125' fill='transparent'
+                stroke='#{object[:color]}'
+                stroke-width='125'
+                stroke-dasharray='calc(#{object[:value]}/#{total_value} * 2 * pi * 62.5) calc(2 * pi * 62.5)' 
+                transform='rotate(#{angle}, 125, 125)'/>"
+
+                # TODO - Fix error accumulated by pie slices (0.5 is temporary offset)
+                angle += 360 * object[:value] / total_value + 0.5
+            end
+
+            result += "</svg>"
+            result.html_safe
         end
 
         def line_graph
