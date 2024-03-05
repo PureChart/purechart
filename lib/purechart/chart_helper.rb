@@ -90,7 +90,11 @@ module PureChart
             "<div>Dot plot will be rendered here.</div>".html_safe
         end
 
+        # Currently only adding support for x
+
         def line_plot(data, configuration = { axes: { vertical: "Value" } }, path="")
+
+
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
@@ -130,11 +134,16 @@ module PureChart
             largest_value = (data.map { |object| object[:value] }).max()
 
             data.each do |object|
-                object[:length] = (Float(object[:value]) / largest_value) * 100
+                object[:length] = (Float(object[:value]) / largest_value) * 10
             end
+
+            gridlines = {
+                vertical_lines: data.size
+            }
 
             ActionController::Base.render partial: '/line_plot', locals: {
                 data: data,
+                gridlines: gridlines,
                 configuration: configuration,
                 style: style_config
             }

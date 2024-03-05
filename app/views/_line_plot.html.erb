@@ -1,18 +1,33 @@
-<div class="chart-flex-container" style="width: fit-content">
+<div class="line-flex-container" style="width:fit-content">
     <div style="margin-left: 96px">
         <h4 class="purechart" style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= configuration[:axes][:vertical] %><%= configuration[:symbol] ? " (" + configuration[:symbol] + ")" : ''%></h4>
     </div>
-    <div class="line-chart" style=" border-bottom: <%=  style['axes']['style'] %>"
+    <div class="line-chart" style="border-bottom: <%=style['axes']['style'] %>">
         <div class="line-chart-elements">
-            <%= data.each_with_index do |object, index| %>
-                <div class="line-point" style="top: <%= index * (100 / (data.size - 1)) %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
-                    <p class="point-label" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:value] %></p>
-                </div>
+            <% point_spacing = 0; # Replace 10 with your desired spacing in pixels %>
+            <% data.each_with_index do |object, index| %>
+                <% left_offset = (object[:name].size) + 5; %>
+                <% total_data_length = object[:length].to_i %>
+                <% vertical_position = 100 %>
+                <% (total_data_length).times do |circle_index| %>
+                    <div class="line-point" style="top: <%= vertical_position - 5 %>%; left: <%= left_offset + (index * (100 / data.size)) + (index * point_spacing) %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;"></div>
+                    <% vertical_position -= 10 %>
+                <% end %>
+                <!-- Add gridline -->
+                <div class="gridline" style="position: absolute; top: 99%; left: <%= left_offset + (index * (100 / data.size)) + (index * point_spacing) %>%; height: 10px; width: 3px; background-color: black;"></div>
+                <!-- Add object name -->
+                <p class="bar-title" style="position: absolute; top: 103%; left: <%= 5 + (index * (100 / data.size)) + (index * point_spacing) %>%; width: 100%; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
+                <div class="tooltip">
+                    <p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>
+                    <p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
+				</div>
             <% end %>
-            <div class="line" style="height: 100%; width: 1px; background-color: <%= style['gridlines']['style'] %>;"></div>
         </div>
     </div>
-  
+
 </div>
+<style>
+
+</style>
 
 <%= render :partial => '/styles' %>

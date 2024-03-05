@@ -21,13 +21,28 @@ h4.purechart {
 }
 
 .line-chart-elements{
-	width: 500px;
-	height: 400px;
+	width: 100%;
+	height: 100%;
+
+	padding-bottom: 32px;
 
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	align-items: baseline;
 	justify-content: space-around;
+}
+
+.line-point{
+	position: absolute;
+	width: 8px; /* Set the width of the point */
+	height: 8px; /* Set the height of the point */
+	
+	border-radius: 50%; /* Make the point a circle */
+	background-color: #000; /* (black) */
+	color: #fff; /* Set the default text color (white) */
+
+	text-align: center;
+	line-height: 1px;
 }
 /* === */
 
@@ -172,10 +187,12 @@ h4.purechart {
 
 /* ===== */
 
-.bar:hover .cross:hover .tooltip {
+.bar:hover .tooltip {
 	opacity: 1;
 	transform: translateX(-50%) translateY(calc(-50% - 32px));
 }
+
+.
 
 * {
 	box-sizing: border-box;
