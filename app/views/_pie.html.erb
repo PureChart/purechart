@@ -11,13 +11,13 @@
                 <circle class="pie-slice <%= index %>" r='62.5' cx='150' cy='150' fill='none'
                 stroke="<%= object[:color] %>"
                 stroke-width='125'
-                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 62.5) calc(2 * pi * 62.5 - (<%= object[:percent_value] %> * 2 * pi * 62.5))' 
+                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 62.5) calc(2 * pi * 62.5)' 
                 transform='rotate(<%= angle %>, 150, 150)'/>
 
                 <circle class="pie-slice-hover" r='135' cx='150' cy='150' fill='none'
                 stroke="<%= object[:color] %>"
                 stroke-width='19'
-                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 135) calc(2 * pi * 135 - (<%= object[:percent_value] %> * 2 * pi * 135))' 
+                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 135) calc(2 * pi * 135)' 
                 stroke-opacity='0'
                 transform='rotate(<%= angle %>, 150, 150)'/>
 
