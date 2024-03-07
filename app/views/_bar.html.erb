@@ -1,0 +1,49 @@
+<div class="chart-flex-container" style="width: fit-content">
+	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
+		<div class="chart-elements">
+			<%- data.each do |object| %>
+			<div class="bar bar-chart-bar" style="width: <%= object[:width] %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
+				<p class="bar-title bar-chart-bar-title" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
+					<div class="tooltip">
+						<p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>
+						<p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
+					</div>
+			</div>
+			<% end %>
+		</div>
+		<div class="gridlines">
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+			<div style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+			</div>
+		</div>
+	</div>
+	<div class="gridlines-ticks">
+		<%- (1..10).each do |index| %>
+			<div class="tick" style="width: 10%; border-right: <%= style['gridlines']['style'] %>">
+				<p style="margin-right: 4px; font-family: <%= style['ticks']['font'] %>; font-weight: <%= style['ticks']['weight'] %>; color: <%= style['ticks']['color'] %>"><%= index * gridlines[:vertical_increment] %></p>
+			</div>
+		<% end %>
+	</div>
+	<div style="margin-left: 96px">
+		<h4 class="purechart" style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= configuration[:axes][:horizontal] %><%= configuration[:symbol] ? " (" + configuration[:symbol] + ")" : ''%></h4>
+	</div>
+</div>
+
+<%= render :partial => '/styles' %>
