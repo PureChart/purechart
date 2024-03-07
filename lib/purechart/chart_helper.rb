@@ -156,7 +156,57 @@ module PureChart
             result.html_safe
         end
 
-        def box_plot(data)
+        def box_plot(data, configuration = {}, path="")
+
+            default_color_config = {
+                colors: { fill: "white", stroke: "black" },
+                width: 1
+              }
+
+            merged_color_config = default_color_config.merge(configuration)
+
+            fill_color = merged_color_config.dig(:colors, :fill)
+            stroke_color = merged_color_config.dig(:colors, :stroke)
+            stroke_width = merged_color_config[:width]
+
+            default_config_path = File.join(File.dirname(__FILE__), 'styles', 'default.yml')
+            #default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
+
+            default_config_hash = YAML.load(File.read(default_config_path))
+            user_config_hash = {}
+            
+            if path == "professional_light"
+                # TODO - Instead of loading our own by default, try/catch to see if they defined their own
+                # style using the same name
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/professional_light.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "professional_dark"
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/professional_dark.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "futuristic_light"
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/futuristic_light.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "futuristic_dark"
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/futuristic_dark.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path == "default"
+                style_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
+                default_config_hash = YAML.load(File.read(style_config_path))
+            elsif path != ""
+                # TODO - Implement better logic
+                if File.file?("app/purechart/" + path + ".yml")
+                    user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yml"))
+                elsif File.file?("app/purechart/" + path + ".yaml")
+                    user_config_hash = YAML.load(File.read("app/purechart/" + path + ".yaml"))
+                elsif File.file?("app/purechart/" + path + ".json")
+                    user_config_hash = JSON.load(File.read("app/purechart/" + path + ".json"))
+                else
+                    raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
+                end
+            end
+            
+            # Merge user's configuration with default
+            style_config = default_config_hash.merge(user_config_hash)
             area =  '''<svg width="1000" height="200" xmlns="http://www.w3.org/2000/svg">'''
                 
             s_data = data.map{ |data| data[:value]}.sort
@@ -188,37 +238,38 @@ module PureChart
             end
             iqr = 1.5*(upper - lower)
             
+            #color selection from YML - FIX LATER
             #Q1 and Q3
-            area+= "<rect width='#{(normalize(upper,min,max)-normalize(median,min,max))}' 
-                    height='100' x='#{normalize(median,min,max)}' y='50' style='fill:rgb(0,0,255);stroke-width:3;stroke:red' />"
-            area+= "<rect width='#{(normalize(median,min,max)-normalize(lower,min,max))}' 
-                    height='100' x='#{normalize(lower,min,max)}' y='50' style='fill:rgb(0,0,255);stroke-width:3;stroke:red' />"
-           
-            def linemaker(start,endp)
+            area += "<rect width='#{(normalize(upper, min, max) - normalize(median, min, max))}' 
+            height='100' x='#{normalize(median, min, max)}' y='50' style='fill:#{fill_color};stroke-width:#{stroke_width};stroke:#{stroke_color}' />"
+    area += "<rect width='#{(normalize(median, min, max) - normalize(lower, min, max))}' 
+            height='100' x='#{normalize(lower, min, max)}' y='50' style='fill:#{fill_color};stroke-width:#{stroke_width};stroke:#{stroke_color}' />"
+    
+            def linemaker(start,endp, stroke, stroke_width)
                 line = ""
-                line+="<line x1='#{start}' y1='100' x2='#{endp}' y2='100' style='stroke:red;stroke-width:3' />"
-                line+="<line x1='#{endp}'  y1='75' x2='#{endp}' y2='125' style='stroke:red;stroke-width:3' />"
+                line+="<line x1='#{start}' y1='100' x2='#{endp}' y2='100' style='stroke:#{stroke};stroke-width:#{stroke_width}' />"
+                line+="<line x1='#{endp}'  y1='75' x2='#{endp}' y2='125' style='stroke:#{stroke};stroke-width:#{stroke_width}' />"
                 return line
             end
             #min wisker + lower outliers
             if min >= lower-iqr
-                area+=linemaker(normalize(lower,min,max),normalize(min,min,max))
+                area+=linemaker(normalize(lower,min,max),normalize(min,min,max), stroke_color, stroke_width)
             else
-                area+=linemaker(normalize(lower,min,max),(normalize(lower-iqr,min,max)))
+                area+=linemaker(normalize(lower,min,max),(normalize(lower-iqr,min,max)), stroke_color, stroke_width)
                 i=0
                 while s_data[i] <= lower-iqr
-                    area+= "<circle r='5' cx='#{normalize(s_data[i],min,max)}' cy='100' fill='red' />"
+                    area+= "<circle r='5' cx='#{normalize(s_data[i],min,max)}' cy='100' fill=#{stroke_color} />"
                     i+=1
                 end
             end
             #max wisker + upper outliers
             if max <= upper+iqr
-                area+=linemaker(normalize(upper,min,max),normalize(max,min,max))
+                area+=linemaker(normalize(upper,min,max),normalize(max,min,max), stroke_color, stroke_width)
             else
-                area+=linemaker(normalize(upper,min,max),(normalize(upper+iqr,min,max)))
+                area+=linemaker(normalize(upper,min,max),(normalize(upper+iqr,min,max)), stroke_color, stroke_width)
                 i=s_data.length-1
                 while s_data[i] >= upper+iqr
-                    area+= "<circle r='5' cx='#{normalize(s_data[i],min,max)}' cy='100' fill='red' />"
+                    area+= "<circle r='5' cx='#{normalize(s_data[i],min,max)}' cy='100' fill=#{stroke_color} />"
                     i-=1
                 end
             end
