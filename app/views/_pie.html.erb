@@ -1,24 +1,29 @@
 <div class="chart-flex-container" style="width: fit-content">
     <div class="pie">
-    <%# Create svg and align viewbox %>
-    <svg height="250" width="250" viewBox="0 0 250 250">
-    <circle r="125" cx="125" cy="125" fill="white" />
+        <%# Create svg and align viewbox %>
+        <svg height="250" width="250" viewBox="0 0 300 300">
+            <%# Orient first slice at top of circle %>
+            <circle r="125" cx="150" cy="150" fill="white" />
+            <%- angle = -90 %>
+            <%# For each slice, create circle with stroke border, where gap between strokes = circumference (to make 1 slice) %>
+            <%- data.each_with_index do |object, index| %>
+                <%# Circle radius should be 1/4 of bg circle dimension %>
+                <circle class="pie-slice <%= index %>" r='62.5' cx='150' cy='150' fill='none'
+                stroke="<%= object[:color] %>"
+                stroke-width='125'
+                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 62.5) calc(2 * pi * 62.5 - (<%= object[:percent_value] %> * 2 * pi * 62.5))' 
+                transform='rotate(<%= angle %>, 150, 150)'/>
 
-    <%# Orient first slice at top of circle %>
-    <%- angle = -90 %>
+                <circle class="pie-slice-hover" r='135' cx='150' cy='150' fill='none'
+                stroke="<%= object[:color] %>"
+                stroke-width='19'
+                stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 135) calc(2 * pi * 135 - (<%= object[:percent_value] %> * 2 * pi * 135))' 
+                stroke-opacity='0'
+                transform='rotate(<%= angle %>, 150, 150)'/>
 
-    <%# For each slice, create circle with stroke border, where gap between strokes = circumference (to make 1 slice) %>
-    <%- for object in data do %>
-        <%# Circle radius should be 1/4 of bg circle dimension %>
-        <circle class="pie-slice" r='62.5' cx='125' cy='125' fill='none'
-        stroke="<%= object[:color] %>"
-        stroke-width='125'
-        stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 62.5) calc(2 * pi * 62.5 - (<%= object[:percent_value] %> * 2 * pi * 62.5))' 
-        transform='rotate(<%= angle %>, 125, 125)'/>
-
-        <%- angle += 360 * object[:percent_value]%>
-    <% end %>
-    </svg>
+                <%- angle += 360 * object[:percent_value]%>
+            <% end %>
+        </svg>
     </div>
 </div>
 
