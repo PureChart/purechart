@@ -1,91 +1,25 @@
-<div class="pieContainer">
-    <div class="pieBackground"></div>
-    <div id="pie-slice-1" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-2" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-3" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-4" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-5" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-6" class="hold"><div class="pie"></div></div>
+<div class="chart-flex-container" style="width: fit-content">
+    <div class="pie">
+    <%# Create svg and align viewbox %>
+    <svg height="250" width="250" viewBox="0 0 250 250">
+    <circle r="125" cx="125" cy="125" fill="white" />
+
+    <%# Orient first slice at top of circle %>
+    <%- angle = -90 %>
+
+    <%# For each slice, create circle with stroke border, where gap between strokes = circumference (to make 1 slice) %>
+    <%- for object in data do %>
+        <%# Circle radius should be 1/4 of bg circle dimension %>
+        <circle class="pie-slice" r='62.5' cx='125' cy='125' fill='none'
+        stroke="<%= object[:color] %>"
+        stroke-width='125'
+        stroke-dasharray='calc(<%= object[:percent_value] %> * 2 * pi * 62.5) calc(2 * pi * 62.5 - (<%= object[:percent_value] %> * 2 * pi * 62.5))' 
+        transform='rotate(<%= angle %>, 125, 125)'/>
+
+        <%- angle += 360 * object[:percent_value]%>
+    <% end %>
+    </svg>
+    </div>
 </div>
 
-<style>
-.pieContainer {
-    height: 250px;
-    width: 250px;
-    position: relative;
-}
-
-.pieBackground {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-} 
-
-.pie {
-    transition: all 1s;
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    clip: rect(0px, 125px, 250px, 0px);
-}
-
-.hold {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    clip: rect(0px, 250px, 250px, 125px);
-}
-
-#pie-slice-1 .pie {
-    background-color: #2ed573;
-    transform:rotate(30deg);
-}
-
-#pie-slice-2 {
-    transform: rotate(30deg);
-}
-
-#pie-slice-2 .pie {
-    background-color: #ffa502;
-    transform: rotate(60deg);
-}
-
-#pie-slice-3 {
-    transform: rotate(90deg);
-}
-
-#pie-slice-3 .pie {
-    background-color: #5352ed;
-    transform: rotate(120deg);
-}
-
-#pie-slice-4 {
-    transform: rotate(210deg);
-}
-
-#pie-slice-4 .pie {
-    background-color: #ff4757;
-    transform: rotate(10deg);
-}
-
-#pie-slice-5 {
-    transform: rotate(220deg);
-}
-
-#pie-slice-5 .pie {
-    background-color: #1e90ff;
-    transform: rotate(70deg);
-}
-
-#pie-slice-6 {
-    transform: rotate(290deg);
-}
-
-#pie-slice-6 .pie {
-    background-color: #ff7f50;
-    transform: rotate(70deg);
-}
-</style>
+<%= render :partial => '/styles' %>
