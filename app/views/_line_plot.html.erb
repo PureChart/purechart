@@ -1,33 +1,40 @@
 <div class="line-flex-container" style="width:fit-content">
+    <style>
+        svg{
+            stroke: #000; /*Sets the colors to black if no input color is provided*/
+        }
+    </style>
     <div style="margin-left: 96px">
         <h4 class="purechart" style="text-align: center; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= configuration[:axes][:vertical] %><%= configuration[:symbol] ? " (" + configuration[:symbol] + ")" : ''%></h4>
     </div>
     <div class="line-chart" style="border-bottom: <%=style['axes']['style'] %>">
         <div class="line-chart-elements">
-            <% point_spacing = 0; # Replace 10 with your desired spacing in pixels %>
             <% data.each_with_index do |object, index| %>
-                <% left_offset = (object[:name].size) + 5; %>
-                <% total_data_length = object[:length].to_i %>
+                <% left_offset = (object[:name].size)+5; %>
                 <% vertical_position = 100 %>
-                <% (total_data_length).times do |circle_index| %>
-                    <div class="line-point" style="top: <%= vertical_position - 5 %>%; left: <%= left_offset + (index * (100 / data.size)) + (index * point_spacing) %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;"></div>
+                <div class="tooltip-trigger" style="bottom:200; height: <%= object[:length] * 10 %>%; left: <%= left_offset + (index * (100 / data.size) - 5)%>%;">
+                    <div class="cross-tooltip">
+                        <p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>
+                        <p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
+                    </div>
+                </div>
+                <% (object[:length].to_i).times do |circle_index| %>
+                    <div class="line-point" style="top: <%= vertical_position - 8 %>%; left: <%= left_offset + (index * (100 / data.size) - 2.8)%>%; ">
+                        <svg width="32" height="32">
+                            <line x1="0" y1="0" x2="32" y2="32" stroke="<%= style['colors'][object[:color]] || object[:color] %>" stroke-width="2" stroke-linecap="round" />
+                            <line x1="32" y1="0" x2="0" y2="32" stroke="<%= style['colors'][object[:color]] || object[:color] %>" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
                     <% vertical_position -= 10 %>
                 <% end %>
                 <!-- Add gridline -->
-                <div class="gridline" style="position: absolute; top: 99%; left: <%= left_offset + (index * (100 / data.size)) + (index * point_spacing) %>%; height: 10px; width: 3px; background-color: black;"></div>
+                <div class="gridline" style="position: absolute; top: 99%; left: <%= left_offset + (index * (100 / data.size)) %>%; height: 10px; width: 3px; background-color: black;"></div>
                 <!-- Add object name -->
-                <p class="bar-title" style="position: absolute; top: 103%; left: <%= 5 + (index * (100 / data.size)) + (index * point_spacing) %>%; width: 100%; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
-                <div class="tooltip">
-                    <p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>
-                    <p><%= configuration[:symbol] ? configuration[:symbol] : ''%><%= object[:value] %></p>
-				</div>
+                <p class="bar-title" style="position: absolute; top: 103%; left: <%= 5 + (index * (100 / data.size))%>%; width: 100%; font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
             <% end %>
         </div>
     </div>
 
 </div>
-<style>
-
-</style>
 
 <%= render :partial => '/styles' %>
