@@ -42,6 +42,20 @@ h4.purechart {
 	z-index: 1;
 }
 
+.pie {
+	color: transparent
+}
+
+.pie-slice:hover {
+	stroke-opacity: 0.8;
+	transition: 0.25s all ease;
+}
+
+.pie-slice:hover:nth-child(1n + 0) + .pie-slice-hover:nth-child(1n+0) {
+	stroke-opacity: 0.25;
+	transition: 0.05s all ease;
+}
+
 .bar-chart-bar {
 	height: 16px;
 }
