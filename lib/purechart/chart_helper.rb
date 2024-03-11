@@ -128,16 +128,24 @@ module PureChart
         def pie_chart(data)
             # Find total value for calculating percentages 
             total_value = 0
+            total_num = 0
             data.each do |object|
                 total_value += object[:value]
+                total_num += 1
             end
+
             # Calculate percentages for each data point
             data.each do |object|
                 object[:percent_value] = Float(object[:value]) / total_value
             end
 
+            num_data = {
+                total_num: total_num
+            }
+
             ActionController::Base.render partial: '/pie', locals: {
-                data: data
+                data: data,
+                num_data: num_data
             }
         end
 

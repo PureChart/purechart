@@ -1,5 +1,5 @@
 <div class="chart-flex-container" style="width: fit-content">
-    <div class="pie">
+    <div class="pie-flex-container" display="flex" flex-direction="row" flex-wrap="wrap" justify-content="center" align-items="center">
         <svg height="250" width="250" viewBox="0 0 300 300">
             <%-arc_x = 25%>
             <%-arc_y = 150%>
@@ -17,17 +17,22 @@
                 <%-arc_x = 150 - 125 * Math.cos(2 * Math::PI * cumulative_percent)%>
                 <%-arc_y = 150 - 125 * Math.sin(2 * Math::PI * cumulative_percent)%>
 
-                <circle class="pie-slice-arc" r='135' cx='150' cy='150' fill='none'
+                <circle class="pie-slice-arc <%=index%>" r='135' cx='150' cy='150' fill='none'
                     stroke="<%=object[:color]%>"
                     stroke-width='16'
                     stroke-dasharray='calc(<%=object[:percent_value]%> * 2 * pi * 135) calc(2 * pi * 135)' 
                     stroke-opacity='0'
                     transform='rotate(<%=cumulative_angle%>, 150, 150)'/>
                 <%-cumulative_angle += 360 * object[:percent_value]%>
-            <% end %>
+            <%end%>
+        </svg>
+        <svg class="pie-key" height="250" width="125" viewBox="0 0 125 250">
+            <%-data.each_with_index do |object, index|%>
+                <circle class="pie-slice-arc <%=index%>" r="5" cx="10" cy='<%=(250/num_data[:total_num])/2 + 250/num_data[:total_num] * index%>' fill="<%=object[:color]%>"/>
+                <text x="20" dy='<%=(250/num_data[:total_num])/2 + 250/num_data[:total_num] * index%>' alignment-baseline="middle"><%=object[:name]%></text>
+            <%end%>
         </svg>
     </div>
-    <%# Insert the key here %>
 </div>
 
 <%= render :partial => '/styles' %>
