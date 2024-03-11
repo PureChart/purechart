@@ -1,6 +1,6 @@
 <div class="chart-flex-container" style="width: fit-content">
-    <div class="pie-flex-container" display="flex" flex-direction="row" flex-wrap="wrap" justify-content="center" align-items="center">
-        <svg height="250" width="250" viewBox="0 0 300 300">
+    <div class="pie-flex-container">
+        <svg class="pie-chart" height="250" width="250" viewBox="0 0 300 300">
             <%-arc_x = 25%>
             <%-arc_y = 150%>
             <%-cumulative_percent = 0%>
@@ -26,12 +26,14 @@
                 <%-cumulative_angle += 360 * object[:percent_value]%>
             <%end%>
         </svg>
-        <svg class="pie-key" height="250" width="125" viewBox="0 0 125 250">
+        <div class="pie-key-flex-container">
             <%-data.each_with_index do |object, index|%>
-                <circle class="pie-slice-arc <%=index%>" r="5" cx="10" cy='<%=(250/num_data[:total_num])/2 + 250/num_data[:total_num] * index%>' fill="<%=object[:color]%>"/>
-                <text x="20" dy='<%=(250/num_data[:total_num])/2 + 250/num_data[:total_num] * index%>' alignment-baseline="middle"><%=object[:name]%></text>
+                <svg class="pie-key" width="50%" viewBox="0 0 auto auto">
+                    <circle class="pie-key-circle <%=index%>" r="5" cx="10%" cy='50%' fill="<%=object[:color]%>"/>
+                    <text x="15%" dy='50%' alignment-baseline="middle"><%=object[:name]%></text>
+                </svg>
             <%end%>
-        </svg>
+        </div>
     </div>
 </div>
 

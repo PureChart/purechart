@@ -46,6 +46,24 @@ h4.purechart {
 	color: transparent
 }
 
+.pie-flex-container {
+	display: flex;
+}
+.pie-chart {
+	flex: 1 1 auto;
+}
+
+.pie-key-flex-container {
+	display: flex;
+	flex-direction: column;
+	flex-flow: column wrap;	
+	max-height: 250px;
+}
+.pie-key {
+	flex: 1 1 auto;
+	min-height: 15px;
+}
+
 .pie-slice:hover {
 	fill-opacity: 0.8;
 	transition: 0.25s all ease;
