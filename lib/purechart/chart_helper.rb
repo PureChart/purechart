@@ -268,8 +268,46 @@ module PureChart
             area.html_safe
         end
 
-        def line_graph
-            "<div>Line graph will be rendered here.</div>".html_safe
+        def line_graph(data)
+            # If all values are very high, the "adjust factor" will be used
+            # to make sure they are all evenly spread across the vertical axis
+            # TODO - Decide what the "adjust factor" should be based on user
+            # input... also rename it
+            adjust_factor = 0
+
+            chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
+          
+            min_val = data.min - adjust_factor
+            max_val = data.max + adjust_factor
+          
+            # Calculate the vertical scaling factor
+            scale_factor = 500.to_f / (max_val - min_val)
+          
+            prev_x = 10
+            prev_y = -1
+
+            i = 10
+            data.each do |val|
+                # Apply the transformation formula to scale the y coordinate
+                scaled_y = ((val - min_val) * scale_factor)
+                # Invert the y-axis to match the SVG coordinate system (0 at the top)
+                inverted_y = 500 - scaled_y
+
+                if prev_y == -1
+                    prev_y = inverted_y
+                end
+            
+                chart += "<path d='M#{prev_x} #{prev_y} L#{i} #{inverted_y}' stroke='black' stroke-width='4'/>"
+                chart += "<circle cx='#{i}' cy='#{inverted_y}' r='7' fill='black'/>"
+
+                prev_x = i
+                prev_y = inverted_y
+
+                i += 480.to_f / data.length
+            end
+          
+            chart += "</svg>"
+            chart.html_safe
         end
 
         def dot_plot(data)
