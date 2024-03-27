@@ -126,20 +126,36 @@ module PureChart
         end
 
         def pie_chart(data)
+            # check for negative values 
+            has_negative_value = 0
+
             # Find total value for calculating percentages 
             total_value = 0
             data.each do |object|
-                total_value += object[:value]
+                total_value += (object[:value]).abs 
             end
             # Calculate percentages for each data point
             data.each do |object|
-                object[:percent_value] = Float(object[:value]) / total_value
+                object[:percent_value] = (Float(object[:value]) / total_value).abs 
+                if object[:value] < 0 
+                    object[:is_negative] = 1
+                    has_negative_value = 1 
+                else
+                    object[:is_negative] = 0
+                end
             end
 
+            negative_value = {
+                negative: has_negative_value
+            }
+        
             ActionController::Base.render partial: '/pie', locals: {
-                data: data
+                data: data,
+                negative_value: negative_value
             }
         end
+    
+
 
         def box_plot(data, configuration = {}, path="")
 
