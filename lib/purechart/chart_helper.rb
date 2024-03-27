@@ -57,19 +57,6 @@ module PureChart
             }
         end
 
-        def dot_svg_render
-           '''<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 10 10 H 190 V 190 H 10 L 10 10" fill="none" stroke="black"/>
-                <circle cx="15" cy="100" r="6" fill="red"/>
-                <circle cx="30" cy="60" r="6" fill="red"/>
-                <circle cx="90" cy="140" r="6" fill="red"/>
-                <circle cx="130" cy="90" r="6" fill="red"/>
-                <circle cx="160" cy="20" r="6" fill="red"/>
-                <circle cx="180" cy="150" r="6" fill="red"/>
-                <circle cx="40" cy="20" r="6" fill="red"/>
-            </svg>'''.html_safe
-        end
-
         def bar_chart(data, configuration = { axes: { horizontal: "Value" } }, path="")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
@@ -133,8 +120,41 @@ module PureChart
             "<div>Line graph will be rendered here.</div>".html_safe
         end
 
-        def dot_plot
-            "<div>Dot plot will be rendered here.</div>".html_safe
-        end
+        def dot_plot(data)
+            chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
+          
+            min_val = data.min - 50
+            max_val = data.max + 50
+          
+            # Calculate the vertical scaling factor
+            scale_factor = 500.to_f / (max_val - min_val)
+          
+            prev_x = 10
+            prev_y = -1
+
+            i = 10
+            data.each do |val|
+              # Apply the transformation formula to scale the y coordinate
+              scaled_y = ((val - min_val) * scale_factor)
+              # Invert the y-axis to match the SVG coordinate system (0 at the top)
+              inverted_y = 500 - scaled_y
+
+              if prev_y == -1
+                prev_y = inverted_y
+              end
+          
+              chart += "<path d='M#{prev_x} #{prev_y} L#{i} #{inverted_y}' stroke='black' stroke-width='4'/>"
+              chart += "<circle cx='#{i}' cy='#{inverted_y}' r='7' fill='black'/>"
+
+              prev_x = i
+              prev_y = inverted_y
+
+              i += 480.to_f / data.length
+            end
+          
+            chart += "</svg>"
+            chart.html_safe
+          end
+          
     end
 end
