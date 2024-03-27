@@ -57,19 +57,6 @@ module PureChart
             }
         end
 
-        def dot_svg_render
-           '''<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 10 10 H 190 V 190 H 10 L 10 10" fill="none" stroke="black"/>
-                <circle cx="15" cy="100" r="6" fill="red"/>
-                <circle cx="30" cy="60" r="6" fill="red"/>
-                <circle cx="90" cy="140" r="6" fill="red"/>
-                <circle cx="130" cy="90" r="6" fill="red"/>
-                <circle cx="160" cy="20" r="6" fill="red"/>
-                <circle cx="180" cy="150" r="6" fill="red"/>
-                <circle cx="40" cy="20" r="6" fill="red"/>
-            </svg>'''.html_safe
-        end
-
         def bar_chart(data, configuration = { axes: { horizontal: "Value" } }, path="")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
@@ -154,15 +141,15 @@ module PureChart
                 negative_value: negative_value
             }
         end
-    
-
 
         def box_plot(data, configuration = {}, path="")
-
             default_color_config = {
-                colors: { fill: "white", stroke: "black" },
+                colors: {
+                    fill: "white",
+                    stroke: "black" 
+                },
                 width: 1
-              }
+            }
 
             merged_color_config = default_color_config.merge(configuration)
 
@@ -171,11 +158,9 @@ module PureChart
             stroke_width = merged_color_config[:width]
 
             default_config_path = File.join(File.dirname(__FILE__), 'styles', 'default.yml')
-            #default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
-
             default_config_hash = YAML.load(File.read(default_config_path))
             user_config_hash = {}
-            
+
             if path == "professional_light"
                 # TODO - Instead of loading our own by default, try/catch to see if they defined their own
                 # style using the same name
@@ -205,11 +190,11 @@ module PureChart
                     raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
                 end
             end
-            
+
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
             area =  '''<svg width="1000" height="200" xmlns="http://www.w3.org/2000/svg">'''
-                
+
             s_data = data.map{ |data| data[:value]}.sort
 
             def find_median(array)
@@ -225,7 +210,8 @@ module PureChart
             def normalize(value,min,max)
                 return ((value.to_f-(min))/(max.to_f-min)+0.025)*950.0
             end
-            n=s_data.length
+
+            n = s_data.length
             min = s_data[0]
             max = s_data[-1]
             median = find_median(s_data)
@@ -237,22 +223,24 @@ module PureChart
                 lower = find_median s_data[0..n/2-1]
                 upper = find_median s_data[n/2+1..-1]
             end
+
             iqr = 1.5*(upper - lower)
-            
-            #color selection from YML - FIX LATER
-            #Q1 and Q3
+
+            # color selection from YML - FIX LATER
+            # Q1 and Q3
             area += "<rect width='#{(normalize(upper, min, max) - normalize(median, min, max))}' 
             height='100' x='#{normalize(median, min, max)}' y='50' style='fill:#{fill_color};stroke-width:#{stroke_width};stroke:#{stroke_color}' />"
-    area += "<rect width='#{(normalize(median, min, max) - normalize(lower, min, max))}' 
+            area += "<rect width='#{(normalize(median, min, max) - normalize(lower, min, max))}' 
             height='100' x='#{normalize(lower, min, max)}' y='50' style='fill:#{fill_color};stroke-width:#{stroke_width};stroke:#{stroke_color}' />"
-    
+
             def linemaker(start,endp, stroke, stroke_width)
                 line = ""
                 line+="<line x1='#{start}' y1='100' x2='#{endp}' y2='100' style='stroke:#{stroke};stroke-width:#{stroke_width}' />"
                 line+="<line x1='#{endp}'  y1='75' x2='#{endp}' y2='125' style='stroke:#{stroke};stroke-width:#{stroke_width}' />"
                 return line
             end
-            #min wisker + lower outliers
+
+            # min wisker + lower outliers
             if min >= lower-iqr
                 area+=linemaker(normalize(lower,min,max),normalize(min,min,max), stroke_color, stroke_width)
             else
@@ -263,7 +251,8 @@ module PureChart
                     i+=1
                 end
             end
-            #max wisker + upper outliers
+
+            # max wisker + upper outliers
             if max <= upper+iqr
                 area+=linemaker(normalize(upper,min,max),normalize(max,min,max), stroke_color, stroke_width)
             else
@@ -278,25 +267,87 @@ module PureChart
             area+="</svg>"
             area.html_safe
         end
-        
-        def line_graph
-            "<div>Line graph will be rendered here.</div>".html_safe
+
+        def line_graph(data)
+            # If all values are very high, the "adjust factor" will be used
+            # to make sure they are all evenly spread across the vertical axis
+            # TODO - Decide what the "adjust factor" should be based on user
+            # input... also rename it
+            adjust_factor = 0
+
+            chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
+          
+            min_val = data.min - adjust_factor
+            max_val = data.max + adjust_factor
+          
+            # Calculate the vertical scaling factor
+            scale_factor = 500.to_f / (max_val - min_val)
+          
+            prev_x = 10
+            prev_y = -1
+
+            i = 10
+            data.each do |val|
+                # Apply the transformation formula to scale the y coordinate
+                scaled_y = ((val - min_val) * scale_factor)
+                # Invert the y-axis to match the SVG coordinate system (0 at the top)
+                inverted_y = 500 - scaled_y
+
+                if prev_y == -1
+                    prev_y = inverted_y
+                end
+            
+                chart += "<path d='M#{prev_x} #{prev_y} L#{i} #{inverted_y}' stroke='black' stroke-width='4'/>"
+                chart += "<circle cx='#{i}' cy='#{inverted_y}' r='7' fill='black'/>"
+
+                prev_x = i
+                prev_y = inverted_y
+
+                i += 480.to_f / data.length
+            end
+          
+            chart += "</svg>"
+            chart.html_safe
         end
 
-        def dot_plot
-            "<div>Dot plot will be rendered here.</div>".html_safe
-        end
+        def dot_plot(data)
+            # If all values are very high, the "adjust factor" will be used
+            # to make sure they are all evenly spread across the vertical axis
+            # TODO - Decide what the "adjust factor" should be based on user
+            # input... also rename it
+            adjust_factor = 0
 
-        # Currently only adding support for x
+            chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
+          
+            min_val = data.min - adjust_factor
+            max_val = data.max + adjust_factor
+          
+            # Calculate the vertical scaling factor
+            scale_factor = 500.to_f / (max_val - min_val)
+
+            i = 10
+            data.each do |val|
+                # Apply the transformation formula to scale the y coordinate
+                scaled_y = ((val - min_val) * scale_factor)
+                # Invert the y-axis to match the SVG coordinate system (0 at the top)
+                inverted_y = 500 - scaled_y
+
+                chart += "<circle cx='#{i}' cy='#{inverted_y}' r='7' fill='black'/>"
+
+                i += 480.to_f / data.length
+            end
+
+            chart += "</svg>"
+            chart.html_safe
+        end
 
         def line_plot(data, configuration = { axes: { vertical: "Value" } }, path="")
-
-
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
             default_config_hash = YAML.load(File.read(default_config_path))
             user_config_hash = {}
+
             if path == "professional_light"
                 # TODO - Instead of loading our own by default, try/catch to see if they defined their own
                 # style using the same name
@@ -323,7 +374,7 @@ module PureChart
                     raise "(PureChart) ERROR - Could not locate configuration file '" + path + ".[YML, YAML, JSON]'. Make sure this file exists in your 'app/purechart' directory."
                 end
             end
-            
+
             # Merge user's configuration with default
             style_config = default_config_hash.merge(user_config_hash)
 
@@ -344,6 +395,6 @@ module PureChart
                 configuration: configuration,
                 style: style_config
             }
-        end 
+        end
     end
 end
