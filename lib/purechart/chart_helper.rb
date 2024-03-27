@@ -121,10 +121,16 @@ module PureChart
         end
 
         def dot_plot(data)
+            # If all values are very high, the "adjust factor" will be used
+            # to make sure they are all evenly spread across the vertical axis
+            # TODO - Decide what the "adjust factor" should be based on user
+            # input... also rename it
+            adjust_factor = 0
+
             chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
           
-            min_val = data.min - 50
-            max_val = data.max + 50
+            min_val = data.min - adjust_factor
+            max_val = data.max + adjust_factor
           
             # Calculate the vertical scaling factor
             scale_factor = 500.to_f / (max_val - min_val)
