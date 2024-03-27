@@ -1,91 +1,35 @@
-<div class="pieContainer">
-    <div class="pieBackground"></div>
-    <div id="pie-slice-1" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-2" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-3" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-4" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-5" class="hold"><div class="pie"></div></div>
-    <div id="pie-slice-6" class="hold"><div class="pie"></div></div>
+<div class="chart-flex-container" style="width: fit-content">
+    <div class="pie">
+        <svg height="250" width="250" viewBox="0 0 300 300">
+            <%-arc_x = 25%>
+            <%-arc_y = 150%>
+            <%-cumulative_percent = 0%>
+            <%-cumulative_angle = -180%>
+            <%-data.each_with_index do |object, index|%>
+                <%-cumulative_percent += object[:percent_value]%>
+                <path class="pie-slice" d="M 150 150 L <%=arc_x%> <%=arc_y%> A 125 125 0 
+                    <%=object[:percent_value] > 0.5 ? 1 : 0%> 1
+                    <%= 150 - 125 * Math.cos(2 * Math::PI * cumulative_percent)%> 
+                    <%= 150 - 125 * Math.sin(2 * Math::PI * cumulative_percent)%> Z" 
+                stroke="<%= object[:is_negative] == 1 ? object[:color] : 'white' %>"
+                stroke-dasharray= '<%= object[:is_negative] == 1 ? 30 : 0 %>'
+                fill="<%= object[:is_negative] == 1 ? 'white' : object[:color] %>"
+                stroke-width="<%= object[:is_negative] == 1 ? 5 : 1 %>" />
+                <%-arc_x = 150 - 125 * Math.cos(2 * Math::PI * cumulative_percent)%>
+                <%-arc_y = 150 - 125 * Math.sin(2 * Math::PI * cumulative_percent)%>
+
+                <circle class="pie-slice-arc" r='135' cx='150' cy='150' fill='none'
+                    stroke="<%=object[:color]%>"
+                    stroke-width='16'
+                    stroke-dasharray='calc(<%=object[:percent_value]%> * 2 * pi * 135) calc(2 * pi * 135)' 
+                    stroke-opacity='0'
+                    transform='rotate(<%=cumulative_angle%>, 150, 150)'/>
+                <%-cumulative_angle += 360 * object[:percent_value]%>
+            <% end %>
+        </svg>
+    </div>
+    <%# Insert the key here %>
+
 </div>
 
-<style>
-.pieContainer {
-    height: 250px;
-    width: 250px;
-    position: relative;
-}
-
-.pieBackground {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-} 
-
-.pie {
-    transition: all 1s;
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    clip: rect(0px, 125px, 250px, 0px);
-}
-
-.hold {
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    border-radius: 100%;
-    clip: rect(0px, 250px, 250px, 125px);
-}
-
-#pie-slice-1 .pie {
-    background-color: #2ed573;
-    transform:rotate(30deg);
-}
-
-#pie-slice-2 {
-    transform: rotate(30deg);
-}
-
-#pie-slice-2 .pie {
-    background-color: #ffa502;
-    transform: rotate(60deg);
-}
-
-#pie-slice-3 {
-    transform: rotate(90deg);
-}
-
-#pie-slice-3 .pie {
-    background-color: #5352ed;
-    transform: rotate(120deg);
-}
-
-#pie-slice-4 {
-    transform: rotate(210deg);
-}
-
-#pie-slice-4 .pie {
-    background-color: #ff4757;
-    transform: rotate(10deg);
-}
-
-#pie-slice-5 {
-    transform: rotate(220deg);
-}
-
-#pie-slice-5 .pie {
-    background-color: #1e90ff;
-    transform: rotate(70deg);
-}
-
-#pie-slice-6 {
-    transform: rotate(290deg);
-}
-
-#pie-slice-6 .pie {
-    background-color: #ff7f50;
-    transform: rotate(70deg);
-}
-</style>
+<%= render :partial => '/styles' %>
