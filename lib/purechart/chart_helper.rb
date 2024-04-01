@@ -311,32 +311,49 @@ module PureChart
         end
 
         def dot_plot(data)
-            # If all values are very high, the "adjust factor" will be used
-            # to make sure they are all evenly spread across the vertical axis
-            # TODO - Decide what the "adjust factor" should be based on user
-            # input... also rename it
             adjust_factor = 0
-
-            chart = '''<svg style="border: 2px solid black;" width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
+            chart = '''<svg width="500" height="500" xmlns="http://www.w3.org/2000/svg">'''
           
-            min_val = data.min - adjust_factor
+            min_val = [0, data.min - adjust_factor].min
             max_val = data.max + adjust_factor
           
             # Calculate the vertical scaling factor
-            scale_factor = 500.to_f / (max_val - min_val)
+            scale_factor = 480.to_f / (max_val - min_val)
+            x_scale_factor = 480.to_f / data.length
+        
+            # Calculate the number of ticks and the increment based on the data range
+            data_range = max_val - min_val
+            num_ticks = [data.length, 10].min
+            increment = data_range.to_f / num_ticks
+        
+            # Draw ticks and grey lines for the y-axis
+            (0..num_ticks).each do |index|
+                value = min_val + (index * increment)
+                y = 500 - (index * (450 / num_ticks))
+        
+                if (value % 1).zero?
+                    formatted_value = value.to_i
+                  else
+                    formatted_value = "%.1f" % value
+                  end
 
-            i = 10
-            data.each do |val|
-                # Apply the transformation formula to scale the y coordinate
-                scaled_y = ((val - min_val) * scale_factor)
-                # Invert the y-axis to match the SVG coordinate system (0 at the top)
-                inverted_y = 500 - scaled_y
-
-                chart += "<circle cx='#{i}' cy='#{inverted_y}' r='7' fill='black'/>"
-
-                i += 480.to_f / data.length
+                # Only add label and line if value is not 0
+                if value != 0
+                    chart += "<line x1='25' y1='#{y}' x2='500' y2='#{y}' style='stroke:black;stroke-width:0.5;stroke-dasharray: 5'/>"
+                    chart += "<text x='45' y='#{y - 5}' fill='#000000' text-anchor='end' font-family='Inter Tight' font-weight='700'>#{formatted_value}</text>"
+                end
             end
-
+        
+            # dots
+            data.each_with_index do |val, index|
+                scaled_y = ((val - min_val) * scale_factor)
+                inverted_y = 500 - (scaled_y / 48 * 45)  
+                chart += "<circle cx='#{60 + index * x_scale_factor}' cy='#{inverted_y}' r='7' fill='black'/>"    
+            end
+        
+            # x and y axis
+            chart += "<line x1='50' y1='500' x2='530' y2='500' style='stroke:black;stroke-width:1'/>"
+            chart += "<line x1='50' y1='500' x2='50' y2='10' style='stroke:black;stroke-width:1'/>"
             chart += "</svg>"
             chart.html_safe
         end
