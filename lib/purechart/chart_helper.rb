@@ -139,13 +139,13 @@ module PureChart
                 object[:percent_value] = Float(object[:value]) / total_value
             end
 
-            num_data = {
+            additional_data = {
                 total_num: total_num
             }
 
             ActionController::Base.render partial: '/pie', locals: {
                 data: data,
-                num_data: num_data
+                additional_data: additional_data
             }
         end
 

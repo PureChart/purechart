@@ -42,15 +42,27 @@ h4.purechart {
 	z-index: 1;
 }
 
-.pie {
-	color: transparent
-}
-
 .pie-flex-container {
 	display: flex;
 }
 .pie-chart {
 	flex: 1 1 auto;
+}
+
+.pie-slice:hover {
+	fill-opacity: 0.8;
+	transform: translateX(0.1%);
+	transition: 0.25s all ease;
+}
+
+.pie-slice-arc {
+	pointer-events: none;
+}
+
+.pie-slice:hover:nth-child(1n+0) + .pie-slice-arc:nth-child(1n+0){
+	fill-opacity: 0.8;
+	stroke-opacity: 0.3;
+	transition: 0.05s all ease;
 }
 
 .pie-key-flex-container {
@@ -62,17 +74,6 @@ h4.purechart {
 .pie-key {
 	flex: 1 1 auto;
 	min-height: 15px;
-}
-
-.pie-slice:hover {
-	fill-opacity: 0.8;
-	transition: 0.25s all ease;
-}
-
-.pie-slice:hover:nth-child(1n + 0) + .pie-slice-arc:nth-child(1n+0){
-	fill-opacity: 0.8;
-	stroke-opacity: 0.3;
-	transition: 0.05s all ease;
 }
 
 .bar-chart-bar {
