@@ -12,9 +12,10 @@
                     <%= object[:percent_value] > 0.5 ? 1 : 0 %> 1
                     <%= 150 - 125 * Math.cos(2 * Math::PI * cumulative_percent) %> 
                     <%= 150 - 125 * Math.sin(2 * Math::PI * cumulative_percent) %> Z" 
-                stroke="White" 
-                fill="<%= object[:color] %>"
-                stroke-width="1" --name="<%= object[:name] %>"/>
+                stroke="<%= object[:is_negative] == 1 ? object[:color] : 'White' %>" 
+                stroke-dasharray= '<%= object[:is_negative] == 1 ? 30 : 0 %>'
+                fill="<%= object[:is_negative] == 1 ? 'White' : object[:color] %>"
+                stroke-width="<%= object[:is_negative] == 1 ? 5 : 1 %>"/>
                 <%- arc_x = 150 - 125 * Math.cos(2 * Math::PI * cumulative_percent) %>
                 <%- arc_y = 150 - 125 * Math.sin(2 * Math::PI * cumulative_percent) %>
 

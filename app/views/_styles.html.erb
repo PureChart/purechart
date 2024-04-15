@@ -4,8 +4,86 @@
 h4.purechart {
 	margin: 0;
 	margin-top: 16px;
+	margin-bottom: 16px;
 	font-family: 'Inter Tight', sans-serif;
 }
+
+/* Line Plot style*/
+.line-chart{
+	width: 500px;
+	height: 400px;
+
+	padding-top: 32px;
+	padding-bottom: 32px;
+
+	position: absolute;
+
+	border-bottom: 2px solid black;
+}
+
+.line-chart-elements{
+	width: 100%;
+	height: 100%;
+
+	padding-bottom: 32px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: baseline;
+	justify-content: space-around;
+}
+
+.line-point{
+	position: absolute;
+	height: 0px; /* Set width and heigh to 0 to replace with SVG */
+	width: 0px; /* To make the square invisible*/
+
+	left: -8px;
+	
+	background-color: #000; /* (black) */
+}
+
+.tooltip-trigger {
+	position: absolute;
+	bottom: -40px;
+	height: 64px;
+	width: 64px;
+	background-color: transparent;
+
+	margin-bottom: 32px;
+
+    cursor: pointer; 
+    z-index: 1; /* Set z-index to ensure it receives hover */
+}
+
+.cross-tooltip{
+	position: absolute;
+
+	padding: 8px;
+
+	background-color: #fff;
+	border-radius: 8px;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 10px 36px 0px, rgba(0, 0, 0, 0.15) 0px 0px 0px 1px;
+
+	opacity: 0;
+	transform: translateX(-50%) translateY(-50%);
+
+	transition: 0.25s all ease;
+}
+
+.tooltip-trigger:hover .cross-tooltip {
+	opacity: 1;
+	transform: translateX(-50%) translateY(calc(-50% - 32px));
+}
+
+.cross-tooltip p {
+	margin: 0px;
+	font-family: 'Inter Tight';
+	font-weight: 700;
+	color: black;
+}
+
+/* === */
 
 .chart {
 	width: 500px;
