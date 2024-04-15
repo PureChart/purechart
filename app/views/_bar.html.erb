@@ -2,7 +2,7 @@
 	<div class="chart" style="border-left: <%=  style['axes']['style'] %>; border-bottom: <%=  style['axes']['style'] %>">
 		<div class="chart-elements">
 			<%- data.each do |object| %>
-			<div class="bar bar-chart-bar" style="width: <%= object[:width] %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>;">
+			<div class="bar bar-chart-bar" style="width: <%= object[:width] %>%; background-color: <%= style['colors'][object[:color]] || object[:color] %>; border-top-right-radius: <%= configuration[:corner_radius] %>; border-bottom-right-radius: <%= configuration[:corner_radius] %>;">
 				<p class="bar-title bar-chart-bar-title" style="font-family: <%= style['labels']['font'] %>; font-weight: <%= style['labels']['weight'] %>; color: <%= style['labels']['color'] %>"><%= object[:name] %></p>
 					<div class="tooltip">
 						<p style="color: <%= style['colors'][object[:color]] || object[:color] %>;"><%= object[:name] %></p>

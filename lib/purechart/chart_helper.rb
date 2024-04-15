@@ -57,7 +57,7 @@ module PureChart
             }
         end
 
-        def bar_chart(data, configuration = { axes: { horizontal: "Value" } }, path="")
+        def bar_chart(data, configuration = { axes: { horizontal: "Value" }, corner_radius: "Value" }, path="")
             # Set default configuration file path
             default_config_path = File.join( File.dirname(__FILE__), 'styles/default.yml' )
 
