@@ -121,6 +121,7 @@ module PureChart
             data.each do |object|
                 total_value += (object[:value]).abs 
             end
+
             # Calculate percentages for each data point
             data.each do |object|
                 object[:percent_value] = (Float(object[:value]) / total_value).abs 
